@@ -1,0 +1,73 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Generate QR Code</title>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+      padding: 40px;
+    }
+
+    #qrcode {
+      padding: 16px;
+      background: white;
+      border: 1px solid #ddd;
+    }
+  </style>
+</head>
+<body>
+  <input type="text" id="urlInput" placeholder="Nhập URL của bạn" value="https://dovanthuy1975.github.io/" />
+  <button id="generate">Tạo QR Code</button>
+
+  <h2>QR Code</h2>
+
+  <div id="qrcode"></div>
+
+  <button id="download">Tải QR Code</button>
+
+  <script>
+    const qrElement = document.getElementById("qrcode");
+
+    document.getElementById("generate").addEventListener("click", () => {
+      const urlInput = document.getElementById("urlInput");
+      const newUrl = urlInput.value;
+
+      if (newUrl) {
+        // Clear the existing QR code
+        qrElement.innerHTML = "";
+
+        // Generate the new QR code
+        new QRCode(qrElement, {
+          text: newUrl,
+          width: 256,
+          height: 256,
+          colorDark: "#000000",
+          colorLight: "#ffffff",
+          correctLevel: QRCode.CorrectLevel.H
+        });
+      }
+    });
+
+    document.getElementById("download").addEventListener("click", () => {
+      const canvas = qrElement.querySelector("canvas");
+
+      if (canvas) {
+        const link = document.createElement("a");
+        link.download = "qrcode.png";
+        link.href = canvas.toDataURL("image/png");
+        link.click();
+      }
+    });
+  </script>
+</body>
+</html>
